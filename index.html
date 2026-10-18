@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="hi" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VET RAWAT - Veterinary & BVSc Study Portal</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        emerald: {
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Poppins', sans-serif; transition: background-color 0.3s ease, color 0.3s ease; }
+        
+        /* DARK MODE STYLES */
+        html.dark body { background-color: #0f172a; color: #f8fafc; }
+        html.dark .card-bg { background-color: #1e293b; border-color: #334155; }
+        html.dark .header-bg { background-color: rgba(15, 23, 42, 0.9); border-color: #1e293b; }
+        
+        /* PURE WHITE LIGHT MODE STYLES */
+        html:not(.dark) body { background-color: #ffffff !important; color: #0f172a !important; }
+        html:not(.dark) .card-bg { background-color: #ffffff !important; border: 1px solid #e2e8f0 !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        html:not(.dark) .header-bg { background-color: #ffffff !important; border-bottom: 1px solid #e2e8f0 !important; }
+        html:not(.dark) .input-bg { background-color: #f8fafc !important; border: 1px solid #cbd5e1 !important; color: #0f172a !important; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- HEADER / NAVBAR -->
+    <header class="sticky top-0 z-40 w-full header-bg backdrop-blur-md border-b transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="navigateTo('home')">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-600 flex items-center justify-center shadow-lg shadow-emerald-600/30">
+                    <i class="fa-solid fa-paw text-2xl text-white"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-extrabold tracking-wider bg-gradient-to-r from-emerald-500 to-teal-400 bg-clip-text text-transparent">VET RAWAT</span>
+                    <p class="text-[10px] text-emerald-500 font-bold tracking-widest uppercase -mt-1">Veterinary Learning Hub</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="flex items-center space-x-4">
+                <button onclick="toggleTheme()" class="px-4 py-2 rounded-xl border border-slate-700 bg-slate-800 text-amber-400 hover:scale-105 transition-all text-xs font-semibold flex items-center space-x-2">
+                    <i id="theme-icon" class="fa-solid fa-moon text-sm"></i>
+                    <span id="theme-text" class="hidden sm:inline">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- BREADCRUMB TRAIL (ALWAYS ON LEFT) -->
+    <div id="breadcrumb" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 text-xs opacity-75 flex items-center space-x-2 w-full">
+        <span onclick="navigateTo('home')" class="hover:text-emerald-500 cursor-pointer flex items-center"><i class="fa-solid fa-house mr-1"></i>Home</span>
+        <span id="bc-category-wrapper" class="hidden"><i class="fa-solid fa-chevron-right text-[10px] mx-1"></i><span id="bc-category" class="hover:text-emerald-500 cursor-pointer"></span></span>
+        <span id="bc-year-wrapper" class="hidden"><i class="fa-solid fa-chevron-right text-[10px] mx-1"></i><span id="bc-year" class="hover:text-emerald-500 cursor-pointer"></span></span>
+        <span id="bc-subject-wrapper" class="hidden"><i class="fa-solid fa-chevron-right text-[10px] mx-1"></i><span id="bc-subject" class="text-emerald-500 font-bold"></span></span>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 w-full">
+
+        <!-- ================= HOME VIEW ================= -->
+        <div id="view-home" class="space-y-8">
+            
+            <!-- Hero Banner -->
+            <div class="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-950 via-slate-900 to-slate-950 border border-emerald-500/20 p-8 sm:p-12 shadow-2xl text-white">
+                <div class="relative z-10 max-w-3xl">
+                    <span class="inline-flex items-center space-x-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 mb-4">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                        <span>BVSc & AH Educational Portal</span>
+                    </span>
+                    <h1 id="intro-title" class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+                        Veterinary Education <br/><span class="text-emerald-400">Made Simple & Accessible</span>
+                    </h1>
+                    <p id="intro-subtitle" class="text-slate-300 text-sm sm:text-base">
+                        BVSc & AH के सभी वर्षों के Handwritten Notes, PYQs, Videos एवं Short Tricks आसानी से एक ही जगह से डाउनलोड करें।
+                    </p>
+                </div>
+            </div>
+
+            <!-- SEPARATE RIGHT-ALIGNED SEARCH BAR SECTION -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 sm:p-6 card-bg rounded-2xl border border-slate-800 relative">
+                <div>
+                    <h3 class="text-base font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-magnifying-glass text-emerald-500"></i>
+                        <span>Search Resource Database</span>
+                    </h3>
+                    <p class="text-xs opacity-75">Find notes, videos & PYQs instantly</p>
+                </div>
+
+                <!-- Right Aligned Search Input & Inline Suggestion List -->
+                <div class="relative w-full sm:w-80">
+                    <input type="text" id="global-search" oninput="handleSearchInput()" placeholder="Search Subject, Notes..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-white dark:bg-slate-900 border border-slate-300 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 text-xs focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-sm">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-emerald-500 text-sm"></i>
+
+                    <!-- Real-time Live Suggestions Dropdown -->
+                    <div id="search-suggestions" class="absolute left-0 right-0 top-full mt-2 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl z-50 hidden max-h-60 overflow-y-auto p-1">
+                        <!-- Filtered items will automatically adjust here -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Section (Separate Notes & PYQ Papers) -->
+            <div>
+                <h2 class="text-xl font-bold mb-6 flex items-center space-x-2">
+                    <i class="fa-solid fa-layer-group text-emerald-500"></i>
+                    <span>Resource Categories</span>
+                </h2>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                    
+                    <!-- 1. Notes -->
+                    <div onclick="selectCategory('notes')" class="group cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl mb-4 group-hover:bg-emerald-500 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-book-open"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-1">Subject Notes</h3>
+                        <p class="text-xs opacity-75">Year-wise handwritten & typed chapter notes.</p>
+                    </div>
+
+                    <!-- 2. PYQ Papers -->
+                    <div onclick="selectCategory('pyq')" class="group cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-teal-500/10 text-teal-500 flex items-center justify-center text-xl mb-4 group-hover:bg-teal-500 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-file-lines"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-1">PYQ Papers</h3>
+                        <p class="text-xs opacity-75">Last 10 years solved & unsolved question papers.</p>
+                    </div>
+
+                    <!-- 3. Video Lectures -->
+                    <div onclick="selectCategory('videos')" class="group cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-sky-500/10 text-sky-500 flex items-center justify-center text-xl mb-4 group-hover:bg-sky-500 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-circle-play"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-1">Video Lectures</h3>
+                        <p class="text-xs opacity-75">Watch high quality topic tutorials directly.</p>
+                    </div>
+
+                    <!-- 4. Cheat Codes -->
+                    <div onclick="selectCategory('cheatcodes')" class="group cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all duration-300 hover:-translate-y-1">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-500 flex items-center justify-center text-xl mb-4 group-hover:bg-amber-500 group-hover:text-white transition-all">
+                            <i class="fa-solid fa-bolt"></i>
+                        </div>
+                        <h3 class="text-lg font-bold mb-1">Cheat Codes</h3>
+                        <p class="text-xs opacity-75">Mnemonics and quick exam revision tricks.</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Social Community Banner -->
+            <div class="rounded-2xl p-6 card-bg flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-full bg-emerald-500/10 text-emerald-500 flex items-center justify-center text-xl">
+                        <i class="fa-solid fa-users"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-base">Join VET RAWAT Study Group</h4>
+                        <p class="text-xs opacity-75">Direct notes updates and study discussions.</p>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-3 w-full sm:w-auto">
+                    <a id="btn-telegram-home" href="#" target="_blank" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-sky-500/20 text-sky-500 font-bold text-xs flex items-center justify-center space-x-2">
+                        <i class="fa-brands fa-telegram text-base"></i>
+                        <span>Telegram</span>
+                    </a>
+                    <a id="btn-instagram-home" href="#" target="_blank" class="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl bg-pink-500/20 text-pink-500 font-bold text-xs flex items-center justify-center space-x-2">
+                        <i class="fa-brands fa-instagram text-base"></i>
+                        <span>Instagram</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ================= YEARS VIEW ================= -->
+        <div id="view-years" class="hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <!-- Left-Side Back Button -->
+                <button onclick="navigateTo('home')" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Home</span>
+                </button>
+            </div>
+            <div>
+                <h2 id="years-title" class="text-2xl font-bold">Select Professional Year</h2>
+                <p class="text-xs opacity-75 mt-1">अपने कोर्स का वर्ष चुनें</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="years-grid"></div>
+        </div>
+
+        <!-- ================= SUBJECTS VIEW ================= -->
+        <div id="view-subjects" class="hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <!-- Left-Side Back Button -->
+                <button onclick="navigateBackToYears()" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Years</span>
+                </button>
+            </div>
+            <div>
+                <h2 id="subjects-title" class="text-2xl font-bold">Select Subject</h2>
+                <p class="text-xs opacity-75 mt-1">विषय का चयन करें</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="subjects-grid"></div>
+        </div>
+
+        <!-- ================= CONTENT LIST VIEW ================= -->
+        <div id="view-content" class="hidden space-y-6">
+            <div class="flex items-center justify-between">
+                <!-- Left-Side Back Button -->
+                <button onclick="navigateBackToSubjects()" class="px-3 py-1.5 rounded-lg bg-emerald-500/10 text-emerald-500 text-xs font-bold hover:bg-emerald-500 hover:text-white transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-arrow-left"></i>
+                    <span>Back to Subjects</span>
+                </button>
+            </div>
+            <div>
+                <h2 id="content-title" class="text-2xl font-bold">Study Materials</h2>
+                <p class="text-xs opacity-75 mt-1">फाइलों को बिना डाउनलोड किए देखें या 1-क्लिक में डाउनलोड करें</p>
+            </div>
+            <div class="space-y-4" id="content-list"></div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="mt-auto border-t border-slate-800 py-6 text-xs opacity-75">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <i class="fa-solid fa-paw text-emerald-500"></i>
+                <span class="font-bold">VET RAWAT</span>
+                <span>© 2026. All Rights Reserved.</span>
+            </div>
+            <div class="flex items-center space-x-6">
+                <a id="btn-telegram-footer" href="#" target="_blank" class="hover:text-emerald-500"><i class="fa-brands fa-telegram mr-1"></i> Telegram</a>
+                <a id="btn-instagram-footer" href="#" target="_blank" class="hover:text-emerald-500"><i class="fa-brands fa-instagram mr-1"></i> Instagram</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- VIEW PREVIEW MODAL -->
+    <div id="preview-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-700 rounded-2xl w-full max-w-4xl h-[85vh] flex flex-col overflow-hidden shadow-2xl text-white">
+            <div class="p-4 border-b border-slate-800 flex items-center justify-between">
+                <h3 id="modal-title" class="font-bold text-sm sm:text-base truncate">Preview Resource</h3>
+                <button onclick="closePreviewModal()" class="p-2 text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <div class="flex-grow bg-black">
+                <iframe id="preview-iframe" class="w-full h-full border-0"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFESSIONAL SECRET ADMIN LOGIN MODAL -->
+    <div id="admin-login-modal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
+        <div class="bg-slate-900 border border-emerald-500/40 rounded-2xl w-full max-w-md p-6 shadow-2xl space-y-5 text-white">
+            <div class="text-center">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 text-xl mx-auto mb-3">
+                    <i class="fa-solid fa-user-shield"></i>
+                </div>
+                <h3 class="text-lg font-bold">VET RAWAT Admin Access</h3>
+                <p class="text-xs text-slate-400 mt-1">Please enter your admin credentials to proceed</p>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="text-[11px] font-semibold text-slate-300 block mb-1">Admin Username</label>
+                    <input type="text" id="admin-user-input" placeholder="Enter username" class="w-full px-3 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <div>
+                    <label class="text-[11px] font-semibold text-slate-300 block mb-1">Password</label>
+                    <input type="password" id="admin-pass-input" placeholder="Enter password" class="w-full px-3 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-xs text-white focus:outline-none focus:border-emerald-500">
+                </div>
+                <p id="admin-login-error" class="text-xs text-red-400 font-semibold hidden text-center">गलत यूजरनेम या पासवर्ड!</p>
+            </div>
+
+            <div class="flex space-x-3 pt-2">
+                <button onclick="closeAdminLoginModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-semibold">Cancel</button>
+                <button onclick="verifyDualAdminLogin()" class="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-lg">Login</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SECRET ADMIN DASHBOARD MODAL (WITH 2 TABS: CHANGE DATA & DATA ANALYSIS) -->
+    <div id="admin-dashboard-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-slate-900 text-white border border-emerald-500/40 rounded-2xl w-full max-w-4xl my-8 p-6 shadow-2xl space-y-6">
+            
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div>
+                    <h3 class="text-xl font-bold flex items-center space-x-2">
+                        <i class="fa-solid fa-user-shield text-emerald-500"></i>
+                        <span>Secret Admin Panel</span>
+                    </h3>
+                    <p class="text-xs text-slate-400">Manage data, social links, intro & view analytics</p>
+                </div>
+                <button onclick="closeAdminDashboard()" class="text-slate-400 hover:text-white">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- TAB SWITCHER BUTTONS -->
+            <div class="flex border-b border-slate-800 space-x-4">
+                <button id="tab-btn-change" onclick="switchAdminTab('change')" class="pb-3 border-b-2 border-emerald-500 text-emerald-400 font-bold text-sm flex items-center space-x-2">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                    <span>1. Change Data</span>
+                </button>
+                <button id="tab-btn-analysis" onclick="switchAdminTab('analysis')" class="pb-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white flex items-center space-x-2">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>2. Data Analysis</span>
+                </button>
+            </div>
+
+            <!-- TAB 1: CHANGE DATA -->
+            <div id="admin-tab-change" class="space-y-6">
+                <!-- Homepage Intro Edit -->
+                <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-400">Edit Homepage Intro / Banner Text</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="admin-intro-title-input" placeholder="Main Heading Title" class="px-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs text-white">
+                        <input type="text" id="admin-intro-sub-input" placeholder="Subtitle Description" class="px-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs text-white">
+                    </div>
+                    <button onclick="saveIntroText()" class="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-bold">Save Intro Text</button>
+                </div>
+
+                <!-- Social Links Update -->
+                <div class="p-4 rounded-xl bg-slate-800/60 border border-slate-700 space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-400">Update Social Links</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="admin-telegram-input" placeholder="Telegram Link" class="px-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs text-white">
+                        <input type="text" id="admin-instagram-input" placeholder="Instagram Link" class="px-3 py-2 rounded bg-slate-900 border border-slate-700 text-xs text-white">
+                    </div>
+                    <button onclick="saveSocialLinks()" class="px-3 py-1.5 bg-emerald-600 text-white rounded text-xs font-bold">Save Social Links</button>
+                </div>
+
+                <!-- Add Material Form -->
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-emerald-400">Upload New Material</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <select id="form-category" class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+                            <option value="notes">Notes</option>
+                            <option value="pyq">PYQ Papers</option>
+                            <option value="videos">Video Lecture</option>
+                            <option value="cheatcodes">Cheat Codes</option>
+                        </select>
+                        <select id="form-year" class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="Internship">Internship</option>
+                        </select>
+                        <input type="text" id="form-subject" placeholder="Subject Name" class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+                    </div>
+
+                    <input type="text" id="form-title" placeholder="Document / Video Title" class="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="form-view-link" placeholder="Google Drive View Link" class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+                        <input type="text" id="form-download-link" placeholder="Google Drive Direct Download Link" class="px-3 py-2 rounded bg-slate-800 border border-slate-700 text-xs text-white">
+                    </div>
+
+                    <button onclick="addMaterialItem()" class="w-full py-2.5 bg-emerald-600 text-white rounded-xl text-xs font-bold">Save Material</button>
+                </div>
+
+                <!-- Manage Files -->
+                <div class="space-y-2">
+                    <h4 class="text-xs font-bold text-slate-300">Uploaded Files</h4>
+                    <div id="admin-resource-list" class="space-y-2 max-h-48 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+            <!-- TAB 2: DATA ANALYSIS -->
+            <div id="admin-tab-analysis" class="hidden space-y-6">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                    <div class="p-4 rounded-xl bg-slate-800 border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400">Total Resources</span>
+                        <h4 id="stat-total" class="text-2xl font-extrabold text-emerald-400 mt-1">0</h4>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800 border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400">Total Views</span>
+                        <h4 id="stat-views" class="text-2xl font-extrabold text-sky-400 mt-1">0</h4>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800 border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400">Total Downloads</span>
+                        <h4 id="stat-downloads" class="text-2xl font-extrabold text-teal-400 mt-1">0</h4>
+                    </div>
+                    <div class="p-4 rounded-xl bg-slate-800 border border-slate-700 text-center">
+                        <span class="text-xs text-slate-400">Active Categories</span>
+                        <h4 id="stat-cats" class="text-2xl font-extrabold text-amber-400 mt-1">4</h4>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h4 class="text-xs font-bold text-slate-300">Category Wise Breakdown</h4>
+                    <div id="category-breakdown" class="space-y-2 text-xs"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Sample Initial Data
+        const initialData = [
+            { id: '1', category: 'notes', year: '1st Year', subject: 'Veterinary Anatomy', title: 'General Osteology Full Notes', viewLink: 'https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs/preview', downloadLink: 'https://drive.google.com/uc?export=download&id=1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs', views: 12, downloads: 5 },
+            { id: '2', category: 'pyq', year: '1st Year', subject: 'Veterinary Anatomy', title: 'Last 10 Years Solved PYQ Papers', viewLink: 'https://drive.google.com/file/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs/preview', downloadLink: 'https://drive.google.com/uc?export=download&id=1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs', views: 24, downloads: 18 },
+            { id: '3', category: 'videos', year: '1st Year', subject: 'Veterinary Anatomy', title: 'Ruminant Skull Anatomy Video', viewLink: 'https://www.youtube.com/embed/dQw4w9WgXcQ', downloadLink: 'https://youtube.com', views: 40, downloads: 2 }
+        ];
+
+        let resources = JSON.parse(localStorage.getItem('vet_rawat_resources')) || initialData;
+        let socialLinks = JSON.parse(localStorage.getItem('vet_rawat_social')) || { telegram: 'https://t.me/vetrawat', instagram: 'https://instagram.com/vetrawat' };
+        let introData = JSON.parse(localStorage.getItem('vet_rawat_intro')) || {
+            title: 'Veterinary Education <br/><span class="text-emerald-400">Made Simple & Accessible</span>',
+            subtitle: 'BVSc & AH के सभी वर्षों के Handwritten Notes, PYQs, Videos एवं Short Tricks आसानी से एक ही जगह से डाउनलोड करें।'
+        };
+
+        let currentCategory = null, currentYear = null, currentSubject = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSocialLinksUI();
+            loadIntroText();
+            checkSecretAdminURL();
+        });
+
+        // Secret Admin URL Check (?admin=true) & Multi-Admin Verification
+        function checkSecretAdminURL() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('admin') === 'true') {
+                openAdminLoginModal();
+            }
+        }
+
+        function openAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.remove('hidden');
+            document.getElementById('admin-login-modal').classList.add('flex');
+            document.getElementById('admin-login-error').classList.add('hidden');
+        }
+
+        function closeAdminLoginModal() {
+            document.getElementById('admin-login-modal').classList.add('hidden');
+            document.getElementById('admin-login-modal').classList.remove('flex');
+            document.getElementById('admin-user-input').value = '';
+            document.getElementById('admin-pass-input').value = '';
+        }
+
+        function verifyDualAdminLogin() {
+            const user = document.getElementById('admin-user-input').value.trim();
+            const pass = document.getElementById('admin-pass-input').value.trim();
+            const errorMsg = document.getElementById('admin-login-error');
+
+            const isAdminVed = (user === 'adved' && pass === 'vedprakash');
+            const isAdminMadan = (user === 'admadan' && pass === 'madanmohan');
+
+            if (isAdminVed || isAdminMadan) {
+                closeAdminLoginModal();
+                openAdminDashboard();
+            } else {
+                errorMsg.classList.remove('hidden');
+            }
+        }
+
+        // Pure Dark/Light Theme Toggle Fix
+        function toggleTheme() {
+            const html = document.documentElement;
+            const text = document.getElementById('theme-text');
+            const icon = document.getElementById('theme-icon');
+
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                text.innerText = 'Light Mode';
+                icon.className = 'fa-solid fa-sun text-amber-500';
+            } else {
+                html.classList.add('dark');
+                text.innerText = 'Dark Mode';
+                icon.className = 'fa-solid fa-moon text-amber-400';
+            }
+        }
+
+        // Navigation Controller
+        function navigateTo(view) {
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-years').classList.add('hidden');
+            document.getElementById('view-subjects').classList.add('hidden');
+            document.getElementById('view-content').classList.add('hidden');
+
+            document.getElementById('bc-category-wrapper').classList.add('hidden');
+            document.getElementById('bc-year-wrapper').classList.add('hidden');
+            document.getElementById('bc-subject-wrapper').classList.add('hidden');
+
+            if (view === 'home') {
+                document.getElementById('view-home').classList.remove('hidden');
+            }
+        }
+
+        // SMART SEARCH BAR FIX (Real-Time Inline Suggestions Dropdown)
+        function handleSearchInput() {
+            const query = document.getElementById('global-search').value.toLowerCase().trim();
+            const dropdown = document.getElementById('search-suggestions');
+
+            if (!query) {
+                dropdown.classList.add('hidden');
+                dropdown.innerHTML = '';
+                return;
+            }
+
+            const results = resources.filter(r => 
+                r.title.toLowerCase().includes(query) || 
+                r.subject.toLowerCase().includes(query) ||
+                r.year.toLowerCase().includes(query)
+            );
+
+            if (results.length === 0) {
+                dropdown.innerHTML = `<div class="p-3 text-center text-xs text-slate-400">कोई फाइल नहीं मिली</div>`;
+            } else {
+                dropdown.innerHTML = results.map(item => `
+                    <div class="p-2.5 hover:bg-slate-800 rounded-lg flex items-center justify-between text-xs border-b border-slate-800/50 last:border-0 text-white">
+                        <div class="mr-2 truncate">
+                            <span class="font-bold text-emerald-400 text-[10px] uppercase">[${item.category}]</span>
+                            <p class="font-semibold text-white truncate mt-0.5">${item.title}</p>
+                            <p class="text-[10px] text-slate-400 truncate">${item.year} • ${item.subject}</p>
+                        </div>
+                        <div class="flex items-center space-x-1.5 flex-shrink-0">
+                            <button onclick="triggerView('${item.id}', '${item.title}', '${item.viewLink}')" class="px-2 py-1 bg-slate-700 hover:bg-slate-600 text-white rounded text-[11px] font-semibold">View</button>
+                            <a href="${item.downloadLink}" onclick="triggerDownload('${item.id}')" target="_blank" class="px-2 py-1 bg-emerald-600 hover:bg-emerald-500 text-white rounded text-[11px] font-bold">Get</a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            dropdown.classList.remove('hidden');
+        }
+
+        // Close Search Suggestions Dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            const searchContainer = document.getElementById('global-search');
+            const dropdown = document.getElementById('search-suggestions');
+            if (searchContainer && dropdown && !searchContainer.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        // Category Flow
+        function selectCategory(cat) {
+            currentCategory = cat;
+            const years = ['1st Year', '2nd Year', '3rd Year', '4th Year', 'Internship'];
+            document.getElementById('years-title').innerText = `${cat.toUpperCase()} - Select Year`;
+            
+            document.getElementById('years-grid').innerHTML = years.map(y => `
+                <div onclick="selectYear('${y}')" class="cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-500">${y}</span>
+                        <h3 class="text-lg font-bold mt-1">BVSc & AH ${y}</h3>
+                    </div>
+                    <i class="fa-solid fa-chevron-right opacity-50"></i>
+                </div>
+            `).join('');
+
+            document.getElementById('bc-category').innerText = cat.toUpperCase();
+            document.getElementById('bc-category-wrapper').classList.remove('hidden');
+
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-years').classList.remove('hidden');
+        }
+
+        function selectYear(year) {
+            currentYear = year;
+            const filtered = resources.filter(r => r.category === currentCategory && r.year === currentYear);
+            const defaultSubjects = ['Veterinary Anatomy', 'Veterinary Physiology', 'LPT', 'Veterinary Pathology', 'Pharmacology'];
+            const subjects = Array.from(new Set([...filtered.map(r => r.subject), ...defaultSubjects]));
+
+            document.getElementById('subjects-title').innerText = `${currentYear} - Subjects`;
+            document.getElementById('subjects-grid').innerHTML = subjects.map(s => `
+                <div onclick="selectSubject('${s}')" class="cursor-pointer rounded-2xl p-6 card-bg hover:border-emerald-500 transition-all">
+                    <h3 class="text-base font-bold">${s}</h3>
+                    <p class="text-xs opacity-75 mt-1">Click to view files</p>
+                </div>
+            `).join('');
+
+            document.getElementById('bc-year').innerText = year;
+            document.getElementById('bc-year-wrapper').classList.remove('hidden');
+
+            document.getElementById('view-years').classList.add('hidden');
+            document.getElementById('view-subjects').classList.remove('hidden');
+        }
+
+        function selectSubject(subject) {
+            currentSubject = subject;
+            const filtered = resources.filter(r => r.category === currentCategory && r.year === currentYear && r.subject === currentSubject);
+
+            document.getElementById('content-title').innerText = `${currentSubject} Materials`;
+            const list = document.getElementById('content-list');
+
+            if(filtered.length === 0) {
+                list.innerHTML = `<div class="p-8 text-center text-xs opacity-75 card-bg rounded-2xl">इस सब्जेक्ट की कोई फाइल उपलब्ध नहीं है।</div>`;
+            } else {
+                list.innerHTML = filtered.map(item => `
+                    <div class="p-4 rounded-2xl card-bg flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                        <div>
+                            <h4 class="font-bold text-sm sm:text-base">${item.title}</h4>
+                            <p class="text-xs opacity-75 mt-0.5">${item.year} • ${item.subject}</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="triggerView('${item.id}', '${item.title}', '${item.viewLink}')" class="px-4 py-2 rounded-xl bg-slate-800 text-white text-xs font-bold">View</button>
+                            <a href="${item.downloadLink}" onclick="triggerDownload('${item.id}')" target="_blank" class="px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-bold">Download</a>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            document.getElementById('bc-subject').innerText = subject;
+            document.getElementById('bc-subject-wrapper').classList.remove('hidden');
+
+            document.getElementById('view-subjects').classList.add('hidden');
+            document.getElementById('view-content').classList.remove('hidden');
+        }
+
+        function navigateBackToYears() {
+            document.getElementById('view-subjects').classList.add('hidden');
+            document.getElementById('bc-subject-wrapper').classList.add('hidden');
+            document.getElementById('view-years').classList.remove('hidden');
+        }
+
+        function navigateBackToSubjects() {
+            document.getElementById('view-content').classList.add('hidden');
+            document.getElementById('bc-subject-wrapper').classList.add('hidden');
+            document.getElementById('view-subjects').classList.remove('hidden');
+        }
+
+        // Tracking Functions
+        function triggerView(id, title, url) {
+            const item = resources.find(r => r.id === id);
+            if(item) {
+                item.views = (item.views || 0) + 1;
+                localStorage.setItem('vet_rawat_resources', JSON.stringify(resources));
+            }
+            openPreview(title, url);
+        }
+
+        function triggerDownload(id) {
+            const item = resources.find(r => r.id === id);
+            if(item) {
+                item.downloads = (item.downloads || 0) + 1;
+                localStorage.setItem('vet_rawat_resources', JSON.stringify(resources));
+            }
+        }
+
+        // Preview Modal
+        function openPreview(title, url) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('preview-iframe').src = url;
+            document.getElementById('preview-modal').classList.remove('hidden');
+            document.getElementById('preview-modal').classList.add('flex');
+        }
+
+        function closePreviewModal() {
+            document.getElementById('preview-iframe').src = '';
+            document.getElementById('preview-modal').classList.add('hidden');
+            document.getElementById('preview-modal').classList.remove('flex');
+        }
+
+        // Admin Tab Switcher
+        function switchAdminTab(tab) {
+            if(tab === 'change') {
+                document.getElementById('admin-tab-change').classList.remove('hidden');
+                document.getElementById('admin-tab-analysis').classList.add('hidden');
+                document.getElementById('tab-btn-change').className = 'pb-3 border-b-2 border-emerald-500 text-emerald-400 font-bold text-sm flex items-center space-x-2';
+                document.getElementById('tab-btn-analysis').className = 'pb-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white flex items-center space-x-2';
+            } else {
+                document.getElementById('admin-tab-change').classList.add('hidden');
+                document.getElementById('admin-tab-analysis').classList.remove('hidden');
+                document.getElementById('tab-btn-analysis').className = 'pb-3 border-b-2 border-emerald-500 text-emerald-400 font-bold text-sm flex items-center space-x-2';
+                document.getElementById('tab-btn-change').className = 'pb-3 border-b-2 border-transparent text-slate-400 font-bold text-sm hover:text-white flex items-center space-x-2';
+                renderDataAnalysis();
+            }
+        }
+
+        // Admin Helpers
+        function openAdminDashboard() {
+            renderAdminResourceList();
+            document.getElementById('admin-dashboard-modal').classList.remove('hidden');
+            document.getElementById('admin-dashboard-modal').classList.add('flex');
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('admin-dashboard-modal').classList.add('hidden');
+            document.getElementById('admin-dashboard-modal').classList.remove('flex');
+        }
+
+        function loadIntroText() {
+            document.getElementById('intro-title').innerHTML = introData.title;
+            document.getElementById('intro-subtitle').innerText = introData.subtitle;
+            document.getElementById('admin-intro-title-input').value = introData.title;
+            document.getElementById('admin-intro-sub-input').value = introData.subtitle;
+        }
+
+        function saveIntroText() {
+            introData.title = document.getElementById('admin-intro-title-input').value;
+            introData.subtitle = document.getElementById('admin-intro-sub-input').value;
+            localStorage.setItem('vet_rawat_intro', JSON.stringify(introData));
+            loadIntroText();
+            alert('Homepage Intro Text Saved!');
+        }
+
+        function updateSocialLinksUI() {
+            document.getElementById('btn-telegram-home').href = socialLinks.telegram;
+            document.getElementById('btn-instagram-home').href = socialLinks.instagram;
+            document.getElementById('btn-telegram-footer').href = socialLinks.telegram;
+            document.getElementById('btn-instagram-footer').href = socialLinks.instagram;
+            document.getElementById('admin-telegram-input').value = socialLinks.telegram;
+            document.getElementById('admin-instagram-input').value = socialLinks.instagram;
+        }
+
+        function saveSocialLinks() {
+            socialLinks.telegram = document.getElementById('admin-telegram-input').value;
+            socialLinks.instagram = document.getElementById('admin-instagram-input').value;
+            localStorage.setItem('vet_rawat_social', JSON.stringify(socialLinks));
+            updateSocialLinksUI();
+            alert('Social Links Saved!');
+        }
+
+        function addMaterialItem() {
+            const category = document.getElementById('form-category').value;
+            const year = document.getElementById('form-year').value;
+            const subject = document.getElementById('form-subject').value.trim();
+            const title = document.getElementById('form-title').value.trim();
+            const viewLink = document.getElementById('form-view-link').value.trim();
+            const downloadLink = document.getElementById('form-download-link').value.trim();
+
+            if(!subject || !title || !viewLink || !downloadLink) {
+                alert('All fields required!');
+                return;
+            }
+
+            resources.push({ id: Date.now().toString(), category, year, subject, title, viewLink, downloadLink, views: 0, downloads: 0 });
+            localStorage.setItem('vet_rawat_resources', JSON.stringify(resources));
+            alert('Material Saved!');
+            renderAdminResourceList();
+        }
+
+        function renderAdminResourceList() {
+            const container = document.getElementById('admin-resource-list');
+            container.innerHTML = resources.map(r => `
+                <div class="p-2 bg-slate-800 rounded flex items-center justify-between text-xs">
+                    <span class="truncate">${r.title} (${r.subject})</span>
+                    <button onclick="deleteResource('${r.id}')" class="text-red-400 ml-2">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteResource(id) {
+            resources = resources.filter(r => r.id !== id);
+            localStorage.setItem('vet_rawat_resources', JSON.stringify(resources));
+            renderAdminResourceList();
+        }
+
+        // Render Data Analysis Stats
+        function renderDataAnalysis() {
+            document.getElementById('stat-total').innerText = resources.length;
+            const totalViews = resources.reduce((acc, curr) => acc + (curr.views || 0), 0);
+            const totalDownloads = resources.reduce((acc, curr) => acc + (curr.downloads || 0), 0);
+            
+            document.getElementById('stat-views').innerText = totalViews;
+            document.getElementById('stat-downloads').innerText = totalDownloads;
+
+            const breakdownContainer = document.getElementById('category-breakdown');
+            const cats = ['notes', 'pyq', 'videos', 'cheatcodes'];
+            
+            breakdownContainer.innerHTML = cats.map(c => {
+                const count = resources.filter(r => r.category === c).length;
+                return `
+                    <div class="p-3 bg-slate-800 rounded-lg flex items-center justify-between">
+                        <span class="uppercase font-bold text-emerald-400">${c}</span>
+                        <span class="text-white font-semibold">${count} Resources</span>
+                    </div>
+                `;
+            }).join('');
+        }
+    </script>
+</body>
+</html>
